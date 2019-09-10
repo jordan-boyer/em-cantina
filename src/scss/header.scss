@@ -1,0 +1,17 @@
+@import "colors";
+
+.header {
+    min-height: 10vh;
+    max-height: 15vh;
+}
+
+.navbar {
+
+    &link {
+        text-decoration: none;
+    }
+
+    &:hover {
+        color: $color-secondary
+    }
+}

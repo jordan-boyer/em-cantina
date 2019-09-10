@@ -1,8 +1,9 @@
 import Vue, { VNode } from 'vue';
+import axios, { AxiosStatic } from 'axios';
+
 import App from './App.vue';
 import router from './typescript/router';
 import store from './typescript/store';
-import axios, { AxiosStatic } from 'axios';
 import './typescript/registerServiceWorker';
 
 
