@@ -18,4 +18,9 @@ body {
     color: $font-color;
     font-weight: 300;
     line-height: 1.6;
+    height: 100%;
+}
+
+.main-content {
+    min-height: 80vh;
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header/>
-    <router-view/>
+    <router-view class="main-content"/>
     <Footer/>
   </div>
 </template>
