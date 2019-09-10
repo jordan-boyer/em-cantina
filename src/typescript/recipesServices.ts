@@ -7,10 +7,20 @@ const errorHandler = (res: AxiosResponse) => {
     return Promise.reject(new Error("Error"));
 }
 
-export default {
-    getAll() {
-        return axios.get('/recipes')
-            .then(res => res.data)
-            .catch(errorHandler)
+class RecipesServices {
+    constructor() {
+        console.log('recipesService created');
+    }
+
+    async getAll() : Promise<any> {
+        try {
+            let recipes = await axios.get('/recipes');
+
+            return recipes.data;
+        } catch (res) {
+            return errorHandler(res);
+        }   
     }
 }
+
+export const recipesServices = new RecipesServices();
