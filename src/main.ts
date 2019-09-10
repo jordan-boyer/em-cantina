@@ -1,9 +1,9 @@
 import Vue, { VNode } from 'vue';
 import App from './App.vue';
-import router from './router';
-import store from './store';
+import router from './typescript/router';
+import store from './typescript/store';
 import axios, { AxiosStatic } from 'axios';
-import './registerServiceWorker';
+import './typescript/registerServiceWorker';
 
 
 axios.defaults.baseURL = 'http://localhost:9000';

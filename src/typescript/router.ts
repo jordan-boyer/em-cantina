@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Recipes from './views/Recipes.vue';
+import Recipes from '../views/Recipes.vue';
 
 Vue.use(Router);
 
