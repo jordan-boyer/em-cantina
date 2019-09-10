@@ -12,14 +12,14 @@ export default new Router({
             path: '/',
             name: 'recipes',
             component: Recipes
+        },
+        {
+            path: '/recette/:id',
+            name: 'recipe',
+            // route level code-splitting
+            // this generates a separate chunk (about.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: async (): Promise<any> => await import(/* webpackChunkName: "recipe" */ '../views/Recipe.vue')
         }
-        //{
-        //    path: '/about',
-        //    name: 'about',
-        //    // route level code-splitting
-        //    // this generates a separate chunk (about.[hash].js) for this route
-        //    // which is lazy-loaded when the route is visited.
-        //    component: async (): Promise<any> => await import(/* webpackChunkName: "about" */ './views/About.vue')
-        //}
     ]
 });
