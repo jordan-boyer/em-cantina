@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import RecipeCard from "../components/RecipeCard.vue";
-import {recipesServices} from './recipesServices';
 import {IRecipe} from './recipes';
 
 @Component({
@@ -10,16 +9,16 @@ import {IRecipe} from './recipes';
     }
 })
 export default class Recipes extends Vue {
-    private recipes: IRecipe[] = [];
+    recipes: IRecipe[] = []
 
     public created(): void {
-        recipesServices.getAll()
-            .then(data => {
-                this.recipes = data;
-                //console.log(this.recipes);
-            })
-            .catch(({message}) => {
-                console.log(message);
-            });
+        try {
+            this.$store.dispatch('getAllRecipes')
+                .then(() => {
+                    this.recipes = this.$store.state.recipes;
+                });
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
