@@ -5,13 +5,13 @@ export enum Difficulty {
 }
 
 export interface IRecipe {
-    id: number,
-    titre: string,
-    description: string,
-    niveau: Difficulty,
-    etapes: Array<string>,
-    personnes: number,
-    photo: string,
-    tempsPreparation: number,
-    ingredients: Array<Array<string>>
+    id: number;
+    titre: string;
+    description: string;
+    niveau: Difficulty;
+    etapes: string[];
+    personnes: number;
+    photo: string;
+    tempsPreparation: number;
+    ingredients: string[][];
 }

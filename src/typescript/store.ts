@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Vuex, {StoreOptions} from 'vuex';
-import {recipesServices} from "./recipesServices"
+import {recipesServices} from "./recipesServices";
 import { IRecipe } from './recipes';
 
 Vue.use(Vuex);
 
 interface RootState {
-    recipes: IRecipe[]
+    recipes: IRecipe[];
 }
 
 const store: StoreOptions<RootState> = {
@@ -14,26 +14,26 @@ const store: StoreOptions<RootState> = {
         recipes: []
     },
     getters: {
-        getById: (state) => (id: string) => { 
-            return state.recipes.find((recipe: IRecipe) => recipe.id.toString() === id)
+        getById: (state): Function => (id: string): IRecipe | undefined => { 
+            return state.recipes.find((recipe: IRecipe): boolean => recipe.id.toString() === id);
         }
     },
     mutations: {
-        setRecipes(state, payload: IRecipe[]) {
+        setRecipes(state, payload: IRecipe[]): void {
             state.recipes = payload;
         },
-        addRecipe(state, payload: IRecipe) {
+        addRecipe(state, payload: IRecipe): void {
             state.recipes.push(payload);
         }
     },
     actions: {
-        async getAllRecipes({commit}) {
+        async getAllRecipes({commit}): Promise<any> {
             commit('setRecipes', await recipesServices.getAll());
         },
-        async getById({commit, getters}, id) {
+        async getById({commit, getters}, id): Promise<any> {
             let recipe = getters.getById(id);
             if (!recipe) {
-                recipe = await recipesServices.getById(id)
+                recipe = await recipesServices.getById(id);
                 commit('addRecipe', recipe);
             }
             return Promise.resolve(recipe);

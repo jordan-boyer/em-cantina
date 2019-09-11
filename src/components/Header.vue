@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    export default {
-        name: "Header"
-    };
+export default {
+    name: "Header"
+};
 </script>
 
 <style lang="scss" scoped src="../scss/header.scss">

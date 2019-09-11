@@ -9,12 +9,12 @@ import {IRecipe} from './recipes';
     }
 })
 export default class Recipes extends Vue {
-    recipes: IRecipe[] = []
+    private recipes: IRecipe[] = [];
 
     public created(): void {
         try {
             this.$store.dispatch('getAllRecipes')
-                .then(() => {
+                .then((): void => {
                     this.recipes = this.$store.state.recipes;
                 });
         } catch (e) {
