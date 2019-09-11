@@ -10,7 +10,6 @@ import {IRecipe, Difficulty} from './recipes';
     }
 })
 export default class Recipes extends Vue {
-    private recipes: IRecipe[] = [];
     public difficulty = Difficulty;
 
     get filtersTitle() {
@@ -54,10 +53,7 @@ export default class Recipes extends Vue {
 
     public created(): void {
         try {
-            this.$store.dispatch('getAllRecipes')
-                .then((): void => {
-                    this.recipes = this.$store.state.recipes;
-                });
+            this.$store.dispatch('getAllRecipes');
         } catch (e) {
             console.log(e);
         }
