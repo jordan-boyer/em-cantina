@@ -1,17 +1,28 @@
 import Vue from 'vue';
 import Vuex, {StoreOptions} from 'vuex';
 import {recipesServices} from "./recipesServices";
-import { IRecipe } from './recipes';
+import { IRecipe, Difficulty } from './recipes';
+import { IFilters } from './filters';
 
 Vue.use(Vuex);
 
 interface RootState {
     recipes: IRecipe[];
+    filters: IFilters
 }
 
 const store: StoreOptions<RootState> = {
     state: {
-        recipes: []
+        recipes: [],
+        filters: {
+            title: "",
+            difficulty: "",
+            nbPersons: {
+                min: 0,
+                max: 100
+            },
+            time: 240
+        }
     },
     getters: {
         getById: (state): Function => (id: string): IRecipe | undefined => { 
@@ -24,6 +35,21 @@ const store: StoreOptions<RootState> = {
         },
         addRecipe(state, payload: IRecipe): void {
             state.recipes.push(payload);
+        },
+        setFiltersTitle(state, title: string): void {
+            state.filters.title = title;
+        },
+        setFiltersTime(state, time: number): void {
+            state.filters.time = time;
+        },
+        setFiltersDifficulty(state, Difficulty: Difficulty | ""): void {
+            state.filters.difficulty = Difficulty;
+        },
+        setFiltersPersonMin(state, min: number): void {
+            state.filters.nbPersons.min = min;
+        },
+        setFiltersPersonMax(state, max: number): void {
+            state.filters.nbPersons.max = max;
         }
     },
     actions: {
@@ -37,6 +63,20 @@ const store: StoreOptions<RootState> = {
                 commit('addRecipe', recipe);
             }
             return Promise.resolve(recipe);
+        },
+        filtersTitle({commit}, newtitle) {
+            commit('setFiltersTitle', newtitle)
+        },
+        filtersTime({commit}, newTime) {
+            commit('setFiltersTime', newTime)
+        },
+        filtersDifficulty({commit}, newDifficulty) {
+            commit('setFiltersDifficulty', newDifficulty)
+        },
+        filtersPersonMin({commit}, newMin) {
+            commit('setfiltersPersonMin', newMin)
+        },filtersPersonMax({commit}, newMax) {
+            commit('setfiltersPersonMax', newMax)
         }
     }
 };
