@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import {Route} from 'vue-router';
 import RecipeCard from "../components/RecipeCard.vue";
 
 @Component({
@@ -10,21 +11,20 @@ import RecipeCard from "../components/RecipeCard.vue";
 export default class Recipes extends Vue {
     private recipe = null;
 
+
+    public getContent(id: string): void {
+        this.$store.dispatch('getById', id).then((recipe): void => {
+            this.recipe = recipe;
+        }).catch(({message}): void => {
+            console.log(message);
+        });
+    }
     public created(): void {
-        try {
-            this.$store.dispatch('getById', this.$route.params.id).then((recipe) => {
-                this.recipe = recipe;
-            });
-        } catch (e) {
-            console.log(e);
-        }
-        /*recipesServices.getById(this.$route.params.id)
-            .then(data => {
-                this.recipe = data;
-                console.log(this.recipe);
-            })
-            .catch(({message}) => {
-                console.log(message);
-            });*/
+        this.getContent(this.$route.params.id);
+    }
+
+    public beforeRouteUpdate (to: Route, from: Route, next: () => void): void {
+        this.getContent(to.params.id);
+        next();
     }
 }
