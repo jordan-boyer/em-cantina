@@ -48,6 +48,10 @@ export default class Recipes extends Vue {
         this.$store.dispatch('filtersPersonMax', newMax);
     }
 
+    get filteredList() {
+        return this.$store.getters.getFilteredList;
+    }
+
     public created(): void {
         try {
             this.$store.dispatch('getAllRecipes')

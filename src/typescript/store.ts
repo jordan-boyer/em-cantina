@@ -27,6 +27,17 @@ const store: StoreOptions<RootState> = {
     getters: {
         getById: (state): Function => (id: string): IRecipe | undefined => { 
             return state.recipes.find((recipe: IRecipe): boolean => recipe.id.toString() === id);
+        },
+        getFilteredList: (state) => {
+            let filteredList = state.recipes.filter((recipe: IRecipe) => {
+                return recipe.titre.toLowerCase().includes(state.filters.title.toLowerCase()) &&
+                recipe.personnes >= state.filters.nbPersons.min && 
+                recipe.personnes <= state.filters.nbPersons.max &&
+                recipe.tempsPreparation <= state.filters.time
+            });
+            if (state.filters.difficulty !== "")
+                filteredList = filteredList.filter((recipe: IRecipe) => recipe.niveau === state.filters.difficulty)
+            return filteredList
         }
     },
     mutations: {
@@ -74,9 +85,9 @@ const store: StoreOptions<RootState> = {
             commit('setFiltersDifficulty', newDifficulty)
         },
         filtersPersonMin({commit}, newMin) {
-            commit('setfiltersPersonMin', newMin)
+            commit('setFiltersPersonMin', newMin)
         },filtersPersonMax({commit}, newMax) {
-            commit('setfiltersPersonMax', newMax)
+            commit('setFiltersPersonMax', newMax)
         }
     }
 };
