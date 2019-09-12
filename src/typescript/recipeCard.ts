@@ -14,4 +14,14 @@ export default class RecipeCard extends Vue {
             });
         }
     }
+
+    public editRecipe(): void {
+        if (this.recipe)
+            this.$router.push(`/recette/edit/${this.recipe.id}`);
+    }
+
+    public goToRecipe(): void {
+        if (this.recipe)
+            this.$router.push(`/recette/${this.recipe.id}`);
+    }
 }

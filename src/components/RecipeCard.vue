@@ -1,5 +1,5 @@
 <template>
-    <div v-if="recipe">
+    <div v-if="recipe" @click="goToRecipe">
         <h4>{{ recipe.titre }}</h4>
         <p>{{ recipe.description }}</p>
         <p>{{ recipe.niveau }}</p>
@@ -12,7 +12,7 @@
             <li v-for="step in recipe.etapes" :key="step"> {{ step }}</li>
         </ul>
         <img :src="recipe.photo" alt="Photo de la recette">
-        <button>Edition</button>
+        <button @click="editRecipe">Edition</button>
         <button @click="deleteRecipe">Supprimé</button>
     </div>
 </template>
