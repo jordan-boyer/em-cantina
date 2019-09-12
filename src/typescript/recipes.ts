@@ -1,7 +1,7 @@
 export enum Difficulty {
     PADAWAN = "padawan",
     JEDI = "jedi",
-    MAITRE = "maître"
+    MAITRE = "maitre"
 }
 
 export interface IRecipe {
