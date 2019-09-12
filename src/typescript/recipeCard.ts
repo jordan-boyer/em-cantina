@@ -24,4 +24,13 @@ export default class RecipeCard extends Vue {
         if (this.recipe)
             this.$router.push(`/recette/${this.recipe.id}`);
     }
+
+    public getIngredient(ingredient: string[]): string {
+        let ingredientList = '';
+        for (let list of ingredient) {
+            ingredientList += list + ' ';
+        }
+        ingredientList.trimEnd();
+        return ingredientList;
+    }
 }

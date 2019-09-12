@@ -6,7 +6,7 @@
         <p>{{ recipe.personnes }}</p>
         <p>{{ recipe.tempsPreparation}}</p>
         <ul v-if="showAll" class="ingredients">
-            <li v-for="ingredient in recipe.ingredients" :key="`${ingredient[0]} ${ingredient[1]}`"> {{ `${ingredient[0]} ${ingredient[1]}` }}</li>
+            <li v-for="ingredient in recipe.ingredients" :key="getIngredient(ingredient)"> {{ getIngredient(ingredient) }}</li>
         </ul>
         <ul v-if="showAll" class="steps">
             <li v-for="step in recipe.etapes" :key="step"> {{ step }}</li>
