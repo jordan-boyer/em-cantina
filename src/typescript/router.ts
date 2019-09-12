@@ -15,10 +15,17 @@ export default new Router({
         {
             path: '/recette/:id',
             name: 'recipe',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
             component: async (): Promise<any> => await import(/* webpackChunkName: "recipe" */ '../views/Recipe.vue')
+        },
+        {
+            path: '/recettes/',
+            name: 'formNew',
+            component: async (): Promise<any> => await import(/* webpackChunkName: "fromNew" */ '../views/Form.vue')
+        },
+        {
+            path: '/recette/edit/:id',
+            name: 'formEdit',
+            component: async (): Promise<any> => await import(/* webpackChunkName: "formEdit" */ '../views/Form.vue')
         }
     ]
 });
