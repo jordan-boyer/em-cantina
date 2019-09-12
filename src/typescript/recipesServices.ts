@@ -31,6 +31,15 @@ class RecipesServices {
             return errorHandler(res);
         }
     }
+
+    public async removeById(id: string): Promise<any> {
+        try {
+            let recipe = await axios.delete(`/recipe/${id}`);
+            return recipe.data;
+        } catch (res) {
+            return errorHandler(res);
+        }
+    }
 }
 
 export const recipesServices = new RecipesServices();

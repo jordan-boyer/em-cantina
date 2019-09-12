@@ -64,6 +64,10 @@ const store: StoreOptions<RootState> = {
         },
         setFiltersPersonMax(state, max: number): void {
             state.filters.nbPersons.max = max;
+        },
+        removeRecipe(state, payload): void {
+            let index = state.recipes.findIndex((recipe) => recipe.id === payload.recette.id);
+            state.recipes.splice(index, 1);
         }
     },
     actions: {
@@ -78,19 +82,23 @@ const store: StoreOptions<RootState> = {
             }
             return Promise.resolve(recipe);
         },
+        async deleteRecipe({commit}, id): Promise<any> {
+            commit('removeRecipe', await recipesServices.removeById(id));
+            return Promise.resolve();
+        },
         filtersTitle({commit}, newtitle) {
-            commit('setFiltersTitle', newtitle)
+            commit('setFiltersTitle', newtitle);
         },
         filtersTime({commit}, newTime) {
-            commit('setFiltersTime', newTime)
+            commit('setFiltersTime', newTime);
         },
         filtersDifficulty({commit}, newDifficulty) {
-            commit('setFiltersDifficulty', newDifficulty)
+            commit('setFiltersDifficulty', newDifficulty);
         },
         filtersPersonMin({commit}, newMin) {
-            commit('setFiltersPersonMin', newMin)
+            commit('setFiltersPersonMin', newMin);
         },filtersPersonMax({commit}, newMax) {
-            commit('setFiltersPersonMax', newMax)
+            commit('setFiltersPersonMax', newMax);
         }
     }
 };
