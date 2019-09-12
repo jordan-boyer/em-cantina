@@ -4,6 +4,15 @@ export enum Difficulty {
     MAITRE = "maitre"
 }
 
+export enum Unit {
+    LITRE = "L",
+    CENTILITRE = "cL",
+    MILLILITRE = "mL",
+    KILOGRAME = "kg",
+    GRAMME = "g",
+    MILLIGRAMME = "mg"
+}
+
 export interface IRecipe {
     id: number;
     titre: string;
