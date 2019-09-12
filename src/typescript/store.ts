@@ -29,11 +29,14 @@ const store: StoreOptions<RootState> = {
             return state.recipes.find((recipe: IRecipe): boolean => recipe.id.toString() === id);
         },
         getFilteredList: (state) => {
+            let nbPersonsMin = state.filters.nbPersons.min === "" ? 0 : state.filters.nbPersons.min;
+            let nbPersonsMax = state.filters.nbPersons.max === "" ? 100 : state.filters.nbPersons.max;
+            let time = state.filters.time === "" ? Number.MAX_VALUE : state.filters.time;
             let filteredList = state.recipes.filter((recipe: IRecipe) => {
                 return recipe.titre.toLowerCase().includes(state.filters.title.toLowerCase()) &&
-                recipe.personnes >= state.filters.nbPersons.min && 
-                recipe.personnes <= state.filters.nbPersons.max &&
-                recipe.tempsPreparation <= state.filters.time
+                recipe.personnes >= nbPersonsMin && 
+                recipe.personnes <= nbPersonsMax &&
+                recipe.tempsPreparation <= time
             });
             if (state.filters.difficulty !== "")
                 filteredList = filteredList.filter((recipe: IRecipe) => recipe.niveau === state.filters.difficulty)
