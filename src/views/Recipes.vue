@@ -18,7 +18,7 @@
             <input type="number" id="filter-time" min="0" v-model="filtersTime">
         </div>
         <div class="grid-list">
-            <recipe-card v-for="recipe in filteredList" :key="recipe.id" :recipe="recipe"/>
+            <recipe-card v-for="recipe in filteredList" :key="recipe.id" :recipe="recipe" @CLICK="goToRecipe(recipe)"/>
         </div>
     </div>
 </template>

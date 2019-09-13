@@ -27,5 +27,8 @@ export default new Router({
             name: 'formEdit',
             component: async (): Promise<any> => await import(/* webpackChunkName: "formEdit" */ '../views/Form.vue')
         }
-    ]
+    ],
+    scrollBehavior(){
+        return { x: 0, y: 0 };
+    }
 });

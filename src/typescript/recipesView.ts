@@ -58,4 +58,9 @@ export default class Recipes extends Vue {
             console.log(e);
         }
     }
+
+    public goToRecipe(recipe: IRecipe): void {
+        if (recipe)
+            this.$router.push(`/recette/${recipe.id}`);
+    }
 }

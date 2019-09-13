@@ -10,7 +10,7 @@ export default class RecipeCard extends Vue {
     public deleteRecipe(): void {
         if (this.recipe) {
             this.$store.dispatch('deleteRecipe', this.recipe.id).then((): void => {
-                this.recipe = null;
+                this.$emit('delete');
             });
         }
     }
@@ -20,11 +20,6 @@ export default class RecipeCard extends Vue {
             this.$router.push(`/recette/edit/${this.recipe.id}`);
     }
 
-    public goToRecipe(): void {
-        if (this.recipe)
-            this.$router.push(`/recette/${this.recipe.id}`);
-    }
-
     public getIngredient(ingredient: string[]): string {
         let ingredientList = '';
         for (let list of ingredient) {
@@ -32,5 +27,12 @@ export default class RecipeCard extends Vue {
         }
         ingredientList.trimEnd();
         return ingredientList;
+    }
+
+    public checkClick(e: Event) {
+        let target = e.target ? e.target as HTMLElement : null
+        if (target && target.nodeName !== "BUTTON") {
+            this.$emit('CLICK');
+        }
     }
 }

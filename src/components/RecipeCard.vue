@@ -1,5 +1,5 @@
 <template>
-    <div v-if="recipe" @click="goToRecipe">
+    <div v-if="recipe" @click="checkClick">
         <h4>{{ recipe.titre }}</h4>
         <p>{{ recipe.description }}</p>
         <p>{{ recipe.niveau }}</p>
