@@ -1,3 +1,4 @@
+import { IRecipe } from './recipes';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:9000/api';
@@ -36,6 +37,16 @@ class RecipesServices {
         try {
             let recipe = await axios.delete(`/recipe/${id}`);
             return recipe.data;
+        } catch (res) {
+            return errorHandler(res);
+        }
+    }
+
+    public async add(recipe: IRecipe) {
+        console.dir(recipe);
+        try {
+            let deleteRecipe = await axios.post('/recipes', recipe);
+            return deleteRecipe.data;
         } catch (res) {
             return errorHandler(res);
         }

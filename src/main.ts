@@ -1,4 +1,5 @@
 import Vue, { VNode } from 'vue';
+import Vuelidate from 'vuelidate';
 import Component from 'vue-class-component';
 import App from './App.vue';
 import router from './typescript/router';
@@ -12,6 +13,8 @@ Component.registerHooks([
     'beforeRouteLeave',
     'beforeRouteUpdate',
 ]);
+
+Vue.use(Vuelidate);
 
 new Vue({
     router,

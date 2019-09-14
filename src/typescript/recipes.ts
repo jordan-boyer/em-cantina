@@ -1,3 +1,4 @@
+import { IRecipe } from './recipes';
 export enum Difficulty {
     PADAWAN = "padawan",
     JEDI = "jedi",
@@ -13,8 +14,10 @@ export enum Unit {
     MILLIGRAMME = "mg"
 }
 
+export type UnitString = keyof typeof Unit;
+
 export interface IRecipe {
-    id: number;
+    id: number | null;
     titre: string;
     description: string;
     niveau: Difficulty;
@@ -24,3 +27,17 @@ export interface IRecipe {
     tempsPreparation: number;
     ingredients: string[][];
 }
+
+export const BaseRecipe: IRecipe = {
+    id: null,
+    titre: "",
+    description: "",
+    niveau: Difficulty.PADAWAN,
+    etapes: [""],
+    personnes: 0,
+    photo: "",
+    tempsPreparation: 0,
+    ingredients: [["","",""]]
+}
+
+export type RecipeType = keyof typeof BaseRecipe;

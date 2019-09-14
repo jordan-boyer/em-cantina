@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import Vuex, {StoreOptions} from 'vuex';
 import {recipesServices} from "./recipesServices";
-import { IRecipe, Difficulty } from './recipes';
+import { IRecipe, Difficulty, BaseRecipe, RecipeType} from './recipes';
 import { IFilters } from './filters';
 
 Vue.use(Vuex);
 
 interface RootState {
     recipes: IRecipe[];
-    filters: IFilters
+    filters: IFilters;
+    newRecipe: IRecipe;
 }
 
 const store: StoreOptions<RootState> = {
@@ -22,25 +23,30 @@ const store: StoreOptions<RootState> = {
                 max: 100
             },
             time: 240
-        }
+        },
+        newRecipe: BaseRecipe
     },
     getters: {
         getById: (state): Function => (id: string): IRecipe | undefined => { 
-            return state.recipes.find((recipe: IRecipe): boolean => recipe.id.toString() === id);
+            return state.recipes.find((recipe: IRecipe): boolean =>  {
+                if (recipe.id)
+                    return recipe.id.toString() === id;
+                return false; 
+            });
         },
-        getFilteredList: (state) => {
+        getFilteredList: (state): IRecipe[] => {
             let nbPersonsMin = state.filters.nbPersons.min === "" ? 0 : state.filters.nbPersons.min;
             let nbPersonsMax = state.filters.nbPersons.max === "" ? 100 : state.filters.nbPersons.max;
             let time = state.filters.time === "" ? Number.MAX_VALUE : state.filters.time;
-            let filteredList = state.recipes.filter((recipe: IRecipe) => {
+            let filteredList = state.recipes.filter((recipe: IRecipe): boolean => {
                 return recipe.titre.toLowerCase().includes(state.filters.title.toLowerCase()) &&
                 recipe.personnes >= nbPersonsMin && 
                 recipe.personnes <= nbPersonsMax &&
-                recipe.tempsPreparation <= time
+                recipe.tempsPreparation <= time;
             });
             if (state.filters.difficulty !== "")
-                filteredList = filteredList.filter((recipe: IRecipe) => recipe.niveau === state.filters.difficulty)
-            return filteredList
+                filteredList = filteredList.filter((recipe: IRecipe): boolean => recipe.niveau === state.filters.difficulty);
+            return filteredList;
         }
     },
     mutations: {
@@ -68,6 +74,29 @@ const store: StoreOptions<RootState> = {
         removeRecipe(state, payload): void {
             let index = state.recipes.findIndex((recipe) => recipe.id === payload.recette.id);
             state.recipes.splice(index, 1);
+        },
+        remove(state, payload): void {
+            if (payload.name === "ingredients")
+                state.newRecipe.ingredients.splice(payload.key, 1);
+            else if (payload.name === "steps")
+                state.newRecipe.etapes.splice(payload.key, 1);
+        },
+        add(state, name): void {
+            if (name === "ingredients")
+                state.newRecipe.ingredients.push(["","",""]);
+            else if (name === "steps")
+                state.newRecipe.etapes.push("");
+        },
+        changeIngredients(state, payload): void {
+            state.newRecipe.ingredients[payload.key1][payload.key2] = payload.value;
+        },
+        changeSteps(state, payload): void {
+            state.newRecipe.etapes[payload.key] = payload.value;
+        },
+        setNewRecipe(state, payload): void {
+            let name = payload.name as RecipeType;
+            let value = payload.value as never;
+            state.newRecipe[name] = value;
         }
     },
     actions: {

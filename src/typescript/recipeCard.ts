@@ -29,8 +29,8 @@ export default class RecipeCard extends Vue {
         return ingredientList;
     }
 
-    public checkClick(e: Event) {
-        let target = e.target ? e.target as HTMLElement : null
+    public checkClick(e: Event): void {
+        let target = e.target ? e.target as HTMLElement : null;
         if (target && target.nodeName !== "BUTTON") {
             this.$emit('CLICK');
         }
