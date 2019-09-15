@@ -1,13 +1,21 @@
 import Vue from 'vue';
 import { Prop, Component } from 'vue-property-decorator';
+import Modal from '../components/Modal';
 import { IRecipe } from './recipes';
 
-@Component
+@Component({
+    components: {
+        Modal
+    }
+})
 export default class RecipeCard extends Vue {
     @Prop({ default: null, type: Object as () => IRecipe }) public recipe!: IRecipe | null;
     @Prop({ default: false, type: Boolean }) public readonly showAll!: boolean;
 
+    public showModal: boolean = false;
+
     public async deleteRecipe(): Promise<any> {
+        this.showModal = false;
         if (this.recipe) {
             try {
                 await this.$store.dispatch('deleteRecipe', this.recipe.id);

@@ -13,7 +13,11 @@
         </ul>
         <img :src="recipe.photo" alt="Photo de la recette">
         <button @click="editRecipe">Edition</button>
-        <button @click="deleteRecipe">Supprimé</button>
+        <button @click="showModal = true">Supprimé</button>
+        <modal v-if="showModal" @close="showModal = false" @ok="deleteRecipe">
+            <h3 slot="header">Voulez vous vraiment supprimé cette recette</h3>
+            <p slot="body">Attention cette action est irréversible</p>
+        </modal>
     </div>
 </template>
 
