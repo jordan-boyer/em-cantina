@@ -1,14 +1,16 @@
 <template>
     <div v-if="recipe" @click="checkClick">
         <h4>{{ recipe.titre }}</h4>
-        <p>{{ recipe.description }}</p>
-        <p>{{ recipe.niveau }}</p>
-        <p>{{ recipe.personnes }}</p>
-        <p>{{ recipe.tempsPreparation}}</p>
+        <p>Description: {{ recipe.description }}</p>
+        <p>Niveau de difficulté: {{ recipe.niveau }}</p>
+        <p>Pour {{ recipe.personnes }} {{Number(recipe.personnes) > 1 ? "personnes": "personne"}}</p>
+        <p>Temps de préparation: {{ time }}</p>
         <ul v-if="showAll" class="ingredients">
+            {{recipe.ingredients.length > 1 ? "Ingredients" : "Ingredient"}}:
             <li v-for="ingredient in recipe.ingredients" :key="getIngredient(ingredient)"> {{ getIngredient(ingredient) }}</li>
         </ul>
         <ul v-if="showAll" class="steps">
+            {{recipe.etapes.length > 1 ? "Etapes" : "Etape"}}:
             <li v-for="step in recipe.etapes" :key="step"> {{ step }}</li>
         </ul>
         <img :src="recipe.photo ? recipe.photo : defaultImg" alt="Photo de la recette">

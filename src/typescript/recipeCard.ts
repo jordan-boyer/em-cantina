@@ -29,6 +29,21 @@ export default class RecipeCard extends Vue {
         }
     }
 
+    public get time(): string {
+        let timeString = "";
+        if (this.recipe) {
+            console.log(this.recipe.tempsPreparation);
+            if (this.recipe.tempsPreparation >= 60) {
+                let hours = this.recipe.tempsPreparation / 60;
+                let minutes = this.recipe.tempsPreparation % 60;
+                timeString = `${hours}h${minutes === 0 ? "" : minutes > 1 ? "minutes" : "minute"}`;
+            } else {
+                timeString = this.recipe.tempsPreparation.toString() + (this.recipe.tempsPreparation > 1 ? "minutes" : "minute");
+            }
+        }
+        return timeString
+    }
+
     public editRecipe(): void {
         if (this.recipe)
             this.$router.push(`/recette/edit/${this.recipe.id}`);
