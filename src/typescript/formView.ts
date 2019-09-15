@@ -110,7 +110,7 @@ export default class Form extends Vue {
     }
 
     public set diffculty(value) {
-        this.$store.commit("setNewRecipe", {name: "niveau", value});
+        this.$store.commit("setNewRecipeField", {name: "niveau", value});
     }
 
     public get person() {
@@ -118,7 +118,7 @@ export default class Form extends Vue {
     }
 
     public set person(value) {
-        this.$store.commit("setNewRecipe", {name: "personnes", value});
+        this.$store.commit("setNewRecipeField", {name: "personnes", value});
     }
 
     public get time() {
@@ -126,7 +126,7 @@ export default class Form extends Vue {
     }
 
     public set time(value) {
-        this.$store.commit("setNewRecipe", {name: "tempsPreparation", value});
+        this.$store.commit("setNewRecipeField", {name: "tempsPreparation", value});
     }
 
     public get photo() {
@@ -134,7 +134,7 @@ export default class Form extends Vue {
     }
 
     public set photo(value) {
-        this.$store.commit("setNewRecipe", {name: "photo", value});
+        this.$store.commit("setNewRecipeField", {name: "photo", value});
     }
 
     public changeNewRecipe(recipe: IRecipe) {
@@ -208,7 +208,7 @@ export default class Form extends Vue {
         description: {required},
         photo: {
             url: (url: string) => {
-                if(url.startsWith("http") || url.startsWith("https"))
+                if(url === "" || url.startsWith("http") || url.startsWith("https"))
                     return true;
                 else
                     return false;

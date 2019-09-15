@@ -11,7 +11,7 @@ const errorHandler = async (res: AxiosError): Promise<Error> => {
 
 class RecipesServices {
     public constructor() {
-        console.log('recipesService created');
+        
     }
 
     public async getAll(): Promise<any> {
