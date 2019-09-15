@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import {Route} from 'vue-router';
 import {Validations} from 'vuelidate-property-decorators';
-import {required, minValue, url, minLength} from 'vuelidate/lib/validators';
+import {required, minValue} from 'vuelidate/lib/validators';
 import { Difficulty, Unit, UnitString, IRecipe } from './recipes';
-import {recipesServices} from './recipesServices'
 
 @Component
 export default class Form extends Vue {
@@ -19,11 +19,10 @@ export default class Form extends Vue {
         return unit;
     }
 
-    public submitForm(e: Event): void {
+    public async submitForm(e: Event): Promise<any> {
         if (this.$v.$invalid)
             return this.$v.$touch();
-        let recipe: IRecipe = this.$store.state.newRecipe;
-        let tmpIngredients = recipe.ingredients;
+        let recipe: IRecipe = {...this.$store.state.newRecipe};
         let ingredients = [];
         for (let ingredient of recipe.ingredients) {
             let tmp = [];
@@ -33,8 +32,20 @@ export default class Form extends Vue {
             ingredients.push(tmp);
         }
         recipe.ingredients = ingredients;
-        recipesServices.add(recipe);
-        recipe.ingredients = tmpIngredients;
+        try {
+            if (this.$route.name === "formNew") {
+                await this.$store.dispatch('addRecipe', recipe);
+                this.$store.commit('cleanRecipe');
+                this.$router.push('/recettes');
+            } 
+            else if (this.$route.name === "formEdit") {
+                await this.$store.dispatch('editRecipe', recipe);
+                this.$router.push(`/recette/${recipe.id}`);
+            }
+        } catch(e) {
+            console.log("error:", e);
+        }
+        return Promise.resolve();
     }
 
     public checkValidity(name: string) {
@@ -81,7 +92,7 @@ export default class Form extends Vue {
     }
 
     public set title(value) {
-        this.$store.commit("setNewRecipe", {name: "titre", value});
+        this.$store.commit("setNewRecipeField", {name: "titre", value});
     }
 
     public get description() {
@@ -89,7 +100,7 @@ export default class Form extends Vue {
     }
 
     public set description(value) {
-        this.$store.commit("setNewRecipe", {name: "description", value});
+        this.$store.commit("setNewRecipeField", {name: "description", value});
     }
 
     public get diffculty() {
@@ -124,13 +135,76 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipe", {name: "photo", value});
     }
 
+    public changeNewRecipe(recipe: IRecipe) {
+        let copy = {...recipe};
+        let ingredients = [];
+
+        for (let ingredient of copy.ingredients) {
+            let ingredientTmp = [];
+            for (let item in Unit) {
+                if (isNaN(Number(item))) {
+                    let unitString = Unit[item as UnitString]
+                    let unitLength = unitString.length;
+                    let ingredientLength = ingredient[0].length;
+                    if (ingredientLength > 1 && ingredientLength > unitLength) {
+                        let test = ingredient[0].substring(ingredientLength - unitLength);
+                        if (test === unitString) {
+                            ingredientTmp.push(ingredient[0].substring(0,ingredientLength - unitLength));
+                            ingredientTmp.push(unitString);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!ingredientTmp.length) {
+                ingredientTmp.push(ingredient[0]);
+                ingredientTmp.push("");  
+            }
+            ingredientTmp.push(ingredient[1]);
+            ingredients.push(ingredientTmp);
+        }
+        copy.ingredients = ingredients;
+        this.$store.commit('setNewRecipe', copy);
+    }
+
+    public beforeRouteUpdate (to: Route, from: Route, next: () => void): void  {
+        if (from.name === "formEdit") {
+            this.$store.dispatch("getById", to.params.id).then((recipe: IRecipe) => {
+                this.changeNewRecipe(recipe);
+            });
+        }
+        next();
+    }
+
+    public beforeRouteLeave (to: Route, from: Route, next: () => void): void  {
+        if (to.name === "formNew" && from.name === "formEdit") {
+            this.$store.commit("cleanRecipe");
+        }
+        next();
+    }
+
+    public created(): void {
+        if(this.$route.name === "formEdit") {
+            this.$store.dispatch("getById", this.$route.params.id).then((recipe: IRecipe) => {
+                this.changeNewRecipe(recipe);
+            });
+        }
+    }
+
     @Validations()
     validations = {
         time: {required, minValue: minValue(1)},
         person: {required, minValue: minValue(1)},
         title: {required},
         description: {required},
-        photo: {url},
+        photo: {
+            url: (url: string) => {
+                if(url.startsWith("http") || url.startsWith("https"))
+                    return true;
+                else
+                    return false;
+            }
+        },
         steps: {
             required,
             $each: (steps: string[]) => {
@@ -149,7 +223,7 @@ export default class Form extends Vue {
             $each: (ingredients: string[][]) => {
                 let valid = true;
                 for (let ingredient of ingredients) {
-                    if (ingredient[0] === "" || ingredient[2] === "") {
+                    if (ingredient[2] === "") {
                         valid = false;
                         break;
                     }

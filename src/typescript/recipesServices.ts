@@ -43,10 +43,17 @@ class RecipesServices {
     }
 
     public async add(recipe: IRecipe) {
-        console.dir(recipe);
         try {
-            let deleteRecipe = await axios.post('/recipes', recipe);
-            return deleteRecipe.data;
+            let addRecipe = await axios.post('/recipes', recipe);
+            return addRecipe.data;
+        } catch (res) {
+            return errorHandler(res);
+        }
+    }
+    public async edit(recipe: IRecipe) {
+        try {
+            let editRecipe = await axios.put(`/recipe/${recipe.id}`, recipe);
+            return editRecipe.data;
         } catch (res) {
             return errorHandler(res);
         }

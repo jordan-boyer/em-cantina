@@ -24,7 +24,7 @@ const store: StoreOptions<RootState> = {
             },
             time: 240
         },
-        newRecipe: BaseRecipe
+        newRecipe: {...BaseRecipe}
     },
     getters: {
         getById: (state): Function => (id: string): IRecipe | undefined => { 
@@ -55,6 +55,10 @@ const store: StoreOptions<RootState> = {
         },
         addRecipe(state, payload: IRecipe): void {
             state.recipes.push(payload);
+        },
+        editRecipe(state, payload: IRecipe):void {
+            let index = state.recipes.findIndex((recipe) => recipe.id === payload.id);
+            state.recipes.splice(index, 1, payload);
         },
         setFiltersTitle(state, title: string): void {
             state.filters.title = title;
@@ -93,10 +97,18 @@ const store: StoreOptions<RootState> = {
         changeSteps(state, payload): void {
             state.newRecipe.etapes[payload.key] = payload.value;
         },
-        setNewRecipe(state, payload): void {
+        setNewRecipe(state, payload) {
+            state.newRecipe = payload;
+        },
+        setNewRecipeField(state, payload): void {
             let name = payload.name as RecipeType;
             let value = payload.value as never;
             state.newRecipe[name] = value;
+        },
+        cleanRecipe(state): void {
+            state.newRecipe = {...BaseRecipe};
+            state.newRecipe.ingredients = [["","",""]];
+            state.newRecipe.etapes = [""];
         }
     },
     actions: {
@@ -113,6 +125,16 @@ const store: StoreOptions<RootState> = {
         },
         async deleteRecipe({commit}, id): Promise<any> {
             commit('removeRecipe', await recipesServices.removeById(id));
+            return Promise.resolve();
+        },
+        async addRecipe({commit}, recipe): Promise<any> {
+            let newRecipe = await recipesServices.add(recipe);
+            commit('addRecipe', newRecipe.recette);
+            return Promise.resolve();
+        },
+        async editRecipe({commit}, recipe): Promise<any> {
+            let editRecipe = await recipesServices.edit(recipe);
+            commit('editRecipe', editRecipe.recette);
             return Promise.resolve();
         },
         filtersTitle({commit}, newtitle) {
