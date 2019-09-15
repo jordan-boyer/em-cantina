@@ -54,8 +54,8 @@ export default class Recipes extends Vue {
     public created(): void {
         try {
             this.$store.dispatch('getAllRecipes');
-        } catch (e) {
-            console.log(e);
+        } catch (error) {
+            this.$toasted.error(error.message);
         }
     }
 

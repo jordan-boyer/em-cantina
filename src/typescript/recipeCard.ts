@@ -7,11 +7,16 @@ export default class RecipeCard extends Vue {
     @Prop({ default: null, type: Object as () => IRecipe }) public recipe!: IRecipe | null;
     @Prop({ default: false, type: Boolean }) public readonly showAll!: boolean;
 
-    public deleteRecipe(): void {
+    public async deleteRecipe(): Promise<any> {
         if (this.recipe) {
-            this.$store.dispatch('deleteRecipe', this.recipe.id).then((): void => {
+            try {
+                await this.$store.dispatch('deleteRecipe', this.recipe.id);
+                this.$toasted.success('Recette supprimée avec succès');
                 this.$emit('delete');
-            });
+            } catch (error) {
+                this.$toasted.error(error.message);
+            }
+            return Promise.resolve();
         }
     }
 

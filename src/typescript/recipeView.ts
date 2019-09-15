@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import {Route} from 'vue-router';
 import RecipeCard from "../components/RecipeCard.vue";
+import { IRecipe } from './recipes';
 
 @Component({
     components: {
@@ -9,15 +10,17 @@ import RecipeCard from "../components/RecipeCard.vue";
     }
 })
 export default class Recipes extends Vue {
-    private recipe = null;
+    private recipe: null | IRecipe = null;
 
-
-    public getContent(id: string): void {
-        this.$store.dispatch('getById', id).then((recipe): void => {
+    public async getContent(id: string): Promise<any> {
+        try {
+            let recipe = await this.$store.dispatch('getById', id);
             this.recipe = recipe;
-        }).catch(({message}): void => {
-            console.log(message);
-        });
+        } catch (error) {
+            this.recipe = null;
+            this.$toasted.error(error.message);
+        }
+        return Promise.resolve();
     }
     public created(): void {
         this.getContent(this.$route.params.id);

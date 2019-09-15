@@ -1,5 +1,6 @@
 import Vue, { VNode } from 'vue';
 import Vuelidate from 'vuelidate';
+import Toasted from 'vue-toasted';
 import Component from 'vue-class-component';
 import App from './App.vue';
 import router from './typescript/router';
@@ -15,6 +16,13 @@ Component.registerHooks([
 ]);
 
 Vue.use(Vuelidate);
+Vue.use(Toasted, {
+    position: 'bottom-center',
+    duration: 3000,
+    keepOnHover: true,
+    fullWidth: true,
+    singleton: true
+})
 
 new Vue({
     router,

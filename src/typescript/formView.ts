@@ -35,15 +35,17 @@ export default class Form extends Vue {
         try {
             if (this.$route.name === "formNew") {
                 await this.$store.dispatch('addRecipe', recipe);
-                this.$store.commit('cleanRecipe');
+                this.$toasted.success("Création d'une nouvelle recette terminée");
                 this.$router.push('/recettes');
             } 
             else if (this.$route.name === "formEdit") {
                 await this.$store.dispatch('editRecipe', recipe);
+                this.$toasted.success("Modification acceptée");
                 this.$router.push(`/recette/${recipe.id}`);
             }
-        } catch(e) {
-            console.log("error:", e);
+            this.$store.commit('cleanRecipe');
+        } catch(error) {
+            this.$toasted.error(error.message);
         }
         return Promise.resolve();
     }
@@ -167,11 +169,20 @@ export default class Form extends Vue {
         this.$store.commit('setNewRecipe', copy);
     }
 
+    public async getContent(id: string): Promise<any> {
+        try {
+            let recipe: IRecipe = await this.$store.dispatch("getById", id);
+            this.changeNewRecipe(recipe);
+        } catch (error) {
+            this.$toasted.error(error.message);
+            this.$router.push('/');
+        }
+        return Promise.resolve();
+    }
+
     public beforeRouteUpdate (to: Route, from: Route, next: () => void): void  {
         if (from.name === "formEdit") {
-            this.$store.dispatch("getById", to.params.id).then((recipe: IRecipe) => {
-                this.changeNewRecipe(recipe);
-            });
+            this.getContent(to.params.id)
         }
         next();
     }
@@ -185,9 +196,7 @@ export default class Form extends Vue {
 
     public created(): void {
         if(this.$route.name === "formEdit") {
-            this.$store.dispatch("getById", this.$route.params.id).then((recipe: IRecipe) => {
-                this.changeNewRecipe(recipe);
-            });
+            this.getContent(this.$route.params.id)
         }
     }
 
