@@ -1,0 +1,65 @@
+@import "colors";
+
+.form {
+    padding: 1rem;
+    display: flex;
+    max-width: 500px;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+    font-size: 1.5rem;
+    & ul {
+        list-style:none;
+	    padding:0;
+	    margin:0;
+    }
+
+    &-group {
+        display: block;
+        position: relative;
+	    padding: 1rem;
+	    border:1px solid $font-color;
+	    margin-bottom: 1.5rem;
+        border-radius: 3px;
+
+        &-invalid {
+            border-color: $error;
+        }
+        
+        & > label{
+            display: block;
+            float: left;
+            background-color: $color-primary;
+            margin-top: -2.3rem;
+            //padding: 2px 5px 2px 5px;
+            //font-size: 14px;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        &--multiple > * {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &-input {
+	    width: 100%;
+	    display: block;
+	    outline: none;
+	    border: none;
+	    height: 2.5rem;
+	    line-height: 2.5rem;
+	    //padding: 5px;
+    }
+
+    &-input[type="button"],
+    &-submit {
+        border: 1px solid black;
+        color: $font-color;
+        background-color: $color-secondary;
+    }
+
+    &-submit {
+        padding: 1rem;
+    }
+}
