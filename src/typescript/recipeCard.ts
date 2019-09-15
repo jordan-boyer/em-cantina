@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Prop, Component } from 'vue-property-decorator';
-import Modal from '../components/Modal';
+import Modal from '../components/Modal.vue';
 import { IRecipe } from './recipes';
 
 @Component({
@@ -13,6 +13,7 @@ export default class RecipeCard extends Vue {
     @Prop({ default: false, type: Boolean }) public readonly showAll!: boolean;
 
     public showModal: boolean = false;
+    public defaultImg:string = require('../assets/default.jpg');
 
     public async deleteRecipe(): Promise<any> {
         this.showModal = false;

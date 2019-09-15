@@ -11,7 +11,7 @@
         <ul v-if="showAll" class="steps">
             <li v-for="step in recipe.etapes" :key="step"> {{ step }}</li>
         </ul>
-        <img :src="recipe.photo" alt="Photo de la recette">
+        <img :src="recipe.photo ? recipe.photo : defaultImg" alt="Photo de la recette">
         <button @click="editRecipe">Edition</button>
         <button @click="showModal = true">Supprimé</button>
         <modal v-if="showModal" @close="showModal = false" @ok="deleteRecipe">
