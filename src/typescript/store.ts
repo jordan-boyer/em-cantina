@@ -42,7 +42,7 @@ const store: StoreOptions<RootState> = {
                 return recipe.titre.toLowerCase().includes(state.filters.title.toLowerCase()) &&
                 recipe.personnes >= nbPersonsMin && 
                 recipe.personnes <= nbPersonsMax &&
-                recipe.tempsPreparation <= time;
+                recipe.tempsPreparation < time;
             });
             if (state.filters.difficulty !== "")
                 filteredList = filteredList.filter((recipe: IRecipe): boolean => recipe.niveau === state.filters.difficulty);
