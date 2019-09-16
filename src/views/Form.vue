@@ -40,7 +40,7 @@
                 <label for="recipe-steps">Etapes</label>
                 <ol name=recipe-steps>
                     <li class="form-group form-group--multiple" :class="{ 'form-group-invalid': $v.steps.$dirty && $v.steps.$model[key] === '' }" v-for="(step, key) in steps" :key="key">
-                        <input placeholder="Etape" class="form-input" cols="50" rows="4" v-model.trim='$v.steps.$model[key]' @input="setSteps($event, key)">
+                        <textarea placeholder="Etape" class="form-input" cols="50" rows="7" v-model.trim='$v.steps.$model[key]' @input="setSteps($event, key)"></textarea>
                         <span v-if="$v.steps.$dirty && $v.steps.$model[key] === ''">Le champs est requis</span>
                         <input class="form-input" type="button" value="X" @click="remove('steps', key)">
                     </li>

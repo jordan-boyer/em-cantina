@@ -26,7 +26,7 @@ export default class Form extends Vue {
         let ingredients = [];
         for (let ingredient of recipe.ingredients) {
             let tmp = [];
-            let ingredientUnit = ingredient[1] !== "" ? this.unit[(ingredient[1] as UnitString)]: "";
+            let ingredientUnit = ingredient[1] !== "" ? this.unit[ingredient[1] as UnitString]: "";
             tmp.push(ingredient[0] + ingredientUnit);
             tmp.push(ingredient[2]);
             ingredients.push(tmp);
@@ -50,7 +50,7 @@ export default class Form extends Vue {
         return Promise.resolve();
     }
 
-    public checkValidity(name: string) {
+    public checkValidity(name: string): void {
         if (name === "ingredients" && this.$v.ingredients)
             this.$v.ingredients.$touch();
         if (name === "steps" && this.$v.steps)
@@ -62,7 +62,7 @@ export default class Form extends Vue {
         this.$store.commit('add', name);
     }
 
-    public remove(name: string, key: number) : void {
+    public remove(name: string, key: number): void {
         this.checkValidity(name);
         this.$store.commit('remove', {name, key});
     }
@@ -71,7 +71,7 @@ export default class Form extends Vue {
         return this.$store.state.newRecipe.ingredients;
     }
 
-    public setIngredients(e: Event, key1: number, key2: number) {
+    public setIngredients(e: Event, key1: number, key2: number): void {
         let target = event ? event.target as HTMLInputElement : null;
         if (target) {
             this.$store.commit('changeIngredients', {key1, key2, value:target.value});
@@ -82,14 +82,14 @@ export default class Form extends Vue {
         return this.$store.state.newRecipe.etapes;
     }
 
-    public setSteps(e: Event, key: number) {
+    public setSteps(e: Event, key: number): void {
         let target = event ? event.target as HTMLInputElement : null;
         if (target) {
             this.$store.commit('changeSteps', {key, value:target.value});
         }
     }
 
-    public get title() {
+    public get title(): string {
         return this.$store.state.newRecipe.titre;
     }
 
@@ -97,7 +97,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "titre", value});
     }
 
-    public get description() {
+    public get description(): string {
         return this.$store.state.newRecipe.description;
     }
 
@@ -105,7 +105,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "description", value});
     }
 
-    public get diffculty() {
+    public get diffculty(): Difficulty {
         return this.$store.state.newRecipe.niveau;
     }
 
@@ -113,7 +113,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "niveau", value});
     }
 
-    public get person() {
+    public get person(): number {
         return this.$store.state.newRecipe.personnes;
     }
 
@@ -121,7 +121,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "personnes", value});
     }
 
-    public get time() {
+    public get time(): number {
         return this.$store.state.newRecipe.tempsPreparation;
     }
 
@@ -129,7 +129,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "tempsPreparation", value});
     }
 
-    public get photo() {
+    public get photo(): string {
         return this.$store.state.newRecipe.photo;
     }
 
@@ -137,7 +137,7 @@ export default class Form extends Vue {
         this.$store.commit("setNewRecipeField", {name: "photo", value});
     }
 
-    public changeNewRecipe(recipe: IRecipe) {
+    public changeNewRecipe(recipe: IRecipe): void {
         let copy = {...recipe};
         let ingredients = [];
 
@@ -145,14 +145,14 @@ export default class Form extends Vue {
             let ingredientTmp = [];
             for (let item in Unit) {
                 if (isNaN(Number(item))) {
-                    let unitString = Unit[item as UnitString]
+                    let unitString = Unit[item as UnitString];
                     let unitLength = unitString.length;
                     let ingredientLength = ingredient[0].length;
                     if (ingredientLength > 1 && ingredientLength > unitLength) {
                         let test = ingredient[0].substring(ingredientLength - unitLength);
                         if (test === unitString) {
                             ingredientTmp.push(ingredient[0].substring(0,ingredientLength - unitLength));
-                            ingredientTmp.push(unitString);
+                            ingredientTmp.push(item);
                             break;
                         }
                     }
@@ -182,7 +182,7 @@ export default class Form extends Vue {
 
     public beforeRouteUpdate (to: Route, from: Route, next: () => void): void  {
         if (from.name === "formEdit") {
-            this.getContent(to.params.id)
+            this.getContent(to.params.id);
         }
         next();
     }
@@ -196,18 +196,18 @@ export default class Form extends Vue {
 
     public created(): void {
         if(this.$route.name === "formEdit") {
-            this.getContent(this.$route.params.id)
+            this.getContent(this.$route.params.id);
         }
     }
 
     @Validations()
-    validations = {
+    public validations = {
         time: {required, minValue: minValue(1)},
         person: {required, minValue: minValue(1)},
         title: {required},
         description: {required},
         photo: {
-            url: (url: string) => {
+            url: (url: string): boolean => {
                 if(url === "" || url.startsWith("http") || url.startsWith("https"))
                     return true;
                 else
@@ -216,7 +216,7 @@ export default class Form extends Vue {
         },
         steps: {
             required,
-            $each: (steps: string[]) => {
+            $each: (steps: string[]): boolean => {
                 let valid = true;
                 for (let step of steps) {
                     if (step === "") {
@@ -229,7 +229,7 @@ export default class Form extends Vue {
         },
         ingredients: {
             required,
-            $each: (ingredients: string[][]) => {
+            $each: (ingredients: string[][]): boolean => {
                 let valid = true;
                 for (let ingredient of ingredients) {
                     if (ingredient[2] === "") {
@@ -240,5 +240,5 @@ export default class Form extends Vue {
                 return valid;
             }
         }
-    }
+    };
 }
