@@ -1,9 +1,18 @@
 @import "colors";
+@import "media";
 
 .grid-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
+
+    @include md-lg {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include sm-md {
+        grid-template-columns: 1fr;
+    }
 }
 
 .click {
@@ -20,14 +29,27 @@
     justify-content: center;
     align-items: center;
 
+    @include sm-md {
+        flex-direction: column;
+    }
+
     &-group {
         display: flex;
+        flex-wrap: wrap;
         margin: 1rem;
         justify-content: center;
         align-items: center;
+
+        @include sm-md {
+            flex-direction: column;
+        }
     }
 
     &-input {
         padding: 5px;
     }
+}
+
+.padding-sm {
+    margin: 0 5px;
 }

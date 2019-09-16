@@ -17,7 +17,12 @@
             </div>
             
             <div class="filter-group">
-                Nombre de personne entre <input class="filter-input" type="number" name="X" min="0" v-model="filtersPersonMin"> et <input class="filter-input" type="number" name="Y" min="0" v-model="filtersPersonMax">
+                <span class="padding-sm">
+                    Nombre de personne entre 
+                </span>
+                <input class="filter-input" type="number" name="X" min="0" v-model="filtersPersonMin">
+                <span class="padding-sm">et</span>
+                <input class="filter-input" type="number" name="Y" min="0" v-model="filtersPersonMax">
             </div>
             <div class="filter-group">
                 <label for="filter-time">Temps &lt; en minutes: </label>
