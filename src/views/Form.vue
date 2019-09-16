@@ -46,7 +46,7 @@
                     </li>
                 </ol>
                 <input class="form-input" type="button" value="Ajouter une étape" @click="add('steps')">
-                <span v-if="$v.steps.$dirty && !$v.steps.required">Votre recette dois avoir au minimum une étape</span>
+                <span v-if="$v.steps.$dirty && !$v.steps.required">Votre recette doit avoir au minimum une étape</span>
             </li>
             <li class="form-group" :class="{ 'form-group-invalid': $v.person.$dirty && $v.person.$invalid }">
                 <label for="recipe-nbperson">Nombre de personnes</label>
@@ -56,7 +56,7 @@
             <li class="form-group" :class="{ 'form-group-invalid': $v.time.$dirty && $v.time.$invalid }">
                 <label for="recipe-time">Durée</label>
                 <input class="form-input" type="number" min="0" name="recipe-time" v-model.number="$v.time.$model" @blur="$v.time.$touch()">
-                <span v-if="$v.time.$dirty && $v.time.$invalid">La durée doit être supérieur à 0</span>
+                <span v-if="$v.time.$dirty && $v.time.$invalid">La durée doit être supérieure à 0</span>
             </li>
             <li class="form-group" :class="{ 'form-group-invalid': $v.photo.$dirty && $v.photo.$invalid }">
                 <label for="recipe-photo">Photo</label>

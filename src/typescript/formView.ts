@@ -20,8 +20,10 @@ export default class Form extends Vue {
     }
 
     public async submitForm(e: Event): Promise<any> {
-        if (this.$v.$invalid)
+        if (this.$v.$invalid) {
+            this.$toasted.error("Veuillez remplir tous les champs requis du formulaire");
             return this.$v.$touch();
+        }
         let recipe: IRecipe = {...this.$store.state.newRecipe};
         let ingredients = [];
         for (let ingredient of recipe.ingredients) {
