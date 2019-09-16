@@ -32,6 +32,9 @@ export default class Form extends Vue {
             ingredients.push(tmp);
         }
         recipe.ingredients = ingredients;
+        for (let i = 0; i < recipe.etapes.length; i++) {
+            recipe.etapes[i] = recipe.etapes[i];
+        }
         try {
             if (this.$route.name === "formNew") {
                 await this.$store.dispatch('addRecipe', recipe);
@@ -74,7 +77,7 @@ export default class Form extends Vue {
     public setIngredients(e: Event, key1: number, key2: number): void {
         let target = event ? event.target as HTMLInputElement : null;
         if (target) {
-            this.$store.commit('changeIngredients', {key1, key2, value:target.value});
+            this.$store.commit('changeIngredients', {key1, key2, value:target.value.trim()});
         } 
     }
 
@@ -85,7 +88,7 @@ export default class Form extends Vue {
     public setSteps(e: Event, key: number): void {
         let target = event ? event.target as HTMLInputElement : null;
         if (target) {
-            this.$store.commit('changeSteps', {key, value:target.value});
+            this.$store.commit('changeSteps', {key, value: target.value.trim()});
         }
     }
 
