@@ -30,7 +30,7 @@
 <script lang="ts">
 export default {
     name: "modal"
-}
+};
 </script>
 
 <style lang="scss" src="../scss/modal.scss" scoped>
