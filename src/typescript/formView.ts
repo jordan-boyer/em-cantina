@@ -36,7 +36,7 @@ export default class Form extends Vue {
             if (this.$route.name === "formNew") {
                 await this.$store.dispatch('addRecipe', recipe);
                 this.$toasted.success("Création d'une nouvelle recette terminée");
-                this.$router.push('/recettes');
+                this.$router.push('/');
             } 
             else if (this.$route.name === "formEdit") {
                 await this.$store.dispatch('editRecipe', recipe);
