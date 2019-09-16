@@ -1,7 +1,28 @@
-.footer {
+@import "colors";
 
+.footer {
+    font-size: 1.5rem;
     min-height: 10vh;
+    padding: 2rem;
+    text-align: center;
+    
     &-copyright {
         text-transform: uppercase;
+    }
+
+    &-github {
+
+        text-align: end;
+        &--link,
+        &--link:visited {
+            text-decoration: none;
+            color: $font-color;
+        }
+
+        &--link:hover,
+        &--link:visited:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
 }
