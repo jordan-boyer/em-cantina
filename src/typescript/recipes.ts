@@ -6,12 +6,11 @@ export enum Difficulty {
 }
 
 export enum Unit {
-    LITRE = "L",
-    CENTILITRE = "cL",
-    MILLILITRE = "mL",
+    CENTILITRE = "cl",
+    MILLILITRE = "ml",
+    LITRE = "l",
     KILOGRAME = "kg",
     GRAMME = "g",
-    MILLIGRAMME = "mg"
 }
 
 export type UnitString = keyof typeof Unit;
