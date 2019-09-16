@@ -33,9 +33,9 @@ export default class RecipeCard extends Vue {
         let timeString = "";
         if (this.recipe) {
             if (this.recipe.tempsPreparation >= 60) {
-                let hours = this.recipe.tempsPreparation / 60;
+                let hours = Math.floor(this.recipe.tempsPreparation / 60);
                 let minutes = this.recipe.tempsPreparation % 60;
-                timeString = `${hours}h${minutes === 0 ? "" : minutes > 1 ? "minutes" : "minute"}`;
+                timeString = `${hours} h ${minutes === 0 ? "" : minutes > 1 ? minutes + " minutes" : minutes + " minute"}`;
             } else {
                 timeString = this.recipe.tempsPreparation.toString() + (this.recipe.tempsPreparation > 1 ? "minutes" : "minute");
             }
