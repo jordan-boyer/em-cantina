@@ -1,6 +1,6 @@
 <template>
     <div>
-        <recipe-card v-if="recipe" :recipe="recipe" :showAll="true" @delete="recipe = null"/>
+        <recipe-card v-if="recipe" :recipe="recipe" :showAll="true" @delete="deleteRecipe"/>
     </div>
 </template>
 

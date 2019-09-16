@@ -30,4 +30,9 @@ export default class Recipes extends Vue {
         this.getContent(to.params.id);
         next();
     }
+
+    public deleteRecipe(): void {
+        this.recipe = null;
+        this.$router.push("/");
+    }
 }
