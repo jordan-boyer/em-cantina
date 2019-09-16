@@ -18,7 +18,7 @@
                     Supprimer
                 </button>
                 <button class="modal-default-button" @click="$emit('close')">
-                    Annulé
+                    Annuler
                 </button>
               </div>
             </div>

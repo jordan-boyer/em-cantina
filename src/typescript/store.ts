@@ -77,7 +77,6 @@ const store: StoreOptions<RootState> = {
         },
         removeRecipe(state, payload): void {
             let index = state.recipes.findIndex((recipe) => recipe.id === payload.recette.id);
-            console.log("index:", index);
             state.recipes.splice(index, 1);
         },
         remove(state, payload): void {

@@ -15,9 +15,9 @@
         </ul>
         <img class="recipecard-photo" :src="recipe.photo ? recipe.photo : defaultImg" alt="Photo de la recette">
         <button class="recipecard-btn recipecard-btn--edition" @click="editRecipe">Edition</button>
-        <button class="recipecard-btn recipecard-btn--sup" @click="showModal = true">Supprimé</button>
+        <button class="recipecard-btn recipecard-btn--sup" @click="showModal = true">Supprimer</button>
         <modal v-if="showModal" @close="showModal = false" @ok="deleteRecipe">
-            <h3 slot="header">Voulez vous vraiment supprimé cette recette</h3>
+            <h3 slot="header">Voulez vous vraiment supprimer cette recette</h3>
             <p slot="body">Attention cette action est irréversible</p>
         </modal>
     </div>
