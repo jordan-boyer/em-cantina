@@ -38,14 +38,17 @@ const store: StoreOptions<RootState> = {
             let nbPersonsMin = state.filters.nbPersons.min === "" ? 0 : state.filters.nbPersons.min;
             let nbPersonsMax = state.filters.nbPersons.max === "" ? 100 : state.filters.nbPersons.max;
             let time = state.filters.time === "" ? Number.MAX_VALUE : state.filters.time;
+
             let filteredList = state.recipes.filter((recipe: IRecipe): boolean => {
                 return recipe.titre.toLowerCase().includes(state.filters.title.toLowerCase()) &&
                 recipe.personnes >= nbPersonsMin && 
                 recipe.personnes <= nbPersonsMax &&
                 recipe.tempsPreparation < time;
             });
+
             if (state.filters.difficulty !== "")
                 filteredList = filteredList.filter((recipe: IRecipe): boolean => recipe.niveau === state.filters.difficulty);
+                
             return filteredList;
         }
     },

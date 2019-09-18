@@ -1,16 +1,16 @@
 <template>
     <div v-if="recipe" @click="checkClick" class="recipecard">
         <h4 class="recipecard-header">{{ recipe.titre }}</h4>
-        <p class="recipecard-description">Description: {{ recipe.description }}</p>
-        <p class="recipecard-difficulty">Niveau de difficulté: {{ recipe.niveau }}</p>
-        <p class="recipecard-person">Pour {{ recipe.personnes }} {{Number(recipe.personnes) > 1 ? "personnes": "personne"}}</p>
-        <p class="recipecard-time">Temps de préparation: {{ time }}</p>
+        <p class="recipecard-description"><span class="bold underline">Description:</span> {{ recipe.description }}</p>
+        <p class="recipecard-difficulty"><span class="bold underline">Niveau de difficulté:</span> {{ recipe.niveau }}</p>
+        <p class="recipecard-person">Pour <span class="bold underline">{{ recipe.personnes }}</span> {{Number(recipe.personnes) > 1 ? "personnes": "personne"}}</p>
+        <p class="recipecard-time"><span class="bold underline">Temps de préparation:</span> {{ time }}</p>
         <ul v-if="showAll" class="recipecard-ingredients">
-            {{recipe.ingredients.length > 1 ? "Ingredients" : "Ingredient"}}:
+            <span class="bold underline">{{recipe.ingredients.length > 1 ? "Ingredients" : "Ingredient"}}:</span>
             <li v-for="ingredient in recipe.ingredients" :key="getIngredient(ingredient)"> {{ getIngredient(ingredient) }}</li>
         </ul>
         <ul v-if="showAll" class="recipecard-steps">
-            {{recipe.etapes.length > 1 ? "Etapes" : "Etape"}}:
+            <span class="bold underline">{{recipe.etapes.length > 1 ? "Etapes" : "Etape"}}:</span>
             <li v-for="step in recipe.etapes" :key="step"> {{ step }}</li>
         </ul>
         <img class="recipecard-photo" :src="recipe.photo ? recipe.photo : defaultImg" alt="Photo de la recette">
