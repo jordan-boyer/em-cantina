@@ -53,7 +53,7 @@ export default class RecipeCard extends Vue {
         for (let list of ingredient) {
             ingredientList += list + ' ';
         }
-        ingredientList.trimEnd();
+        ingredientList.trim();
         return ingredientList;
     }
 
